@@ -1,5 +1,5 @@
 # Version Management. Requires git flow.
-namespace :g_app_version do
+namespace :app_version do
   desc "Create Version file at 0.0.0"
   task :create do
     new_version = Hash.new
@@ -49,16 +49,19 @@ namespace :g_app_version do
 
   def update_version(new_version)
     puts "Creating git flow release"
-    puts `git status`
-    puts `git flow release start #{new_version[:major]}.#{new_version[:minor]}.#{new_version[:revision]}`
+    response =  system("git flow release start #{new_version[:major]}.#{new_version[:minor]}.#{new_version[:revision]}")
+    fail "Unable to start release. Make sure you have no unstaged changes" if !response
     puts "Bumping version number"
     File.open("#{Rails.root}/VERSION.yml", 'w') do |file|
       YAML::dump(new_version, file)
     end
+    puts "Version #{new_version[:major]}.#{new_version[:minor]}.#{new_version[:revision]}"
     puts "Committing version bump"
-    puts `git commit -am 'Bump Version to #{new_version[:major]}.#{new_version[:minor]}.#{new_version[:revision]}'`
+    response = system("git commit -am 'Bump Version to #{new_version[:major]}.#{new_version[:minor]}.#{new_version[:revision]}'")
+    fail "Unable to commit version bump to git." if !response
     puts "Finishing git flow release"
-    puts `git flow release finish -m 'Release:#{new_version[:major]}.#{new_version[:minor]}.#{new_version[:revision]}' #{new_version[:major]}.#{new_version[:minor]}.#{new_version[:revision]}`
+    response = system("git flow release finish -m 'Release:#{new_version[:major]}.#{new_version[:minor]}.#{new_version[:revision]}' #{new_version[:major]}.#{new_version[:minor]}.#{new_version[:revision]}")
+    fail "Unable to finish release. There was likely merge conflicts. Resolve this, then run 'git flow release finish #{new_version[:major]}.#{new_version[:minor]}.#{new_version[:revision]}'" if !response
     puts "Pushing release to github"
     puts `git push origin master`
     puts `git push --tags`
@@ -69,14 +72,19 @@ namespace :g_app_version do
     YAML.load_file("#{Rails.root}/VERSION.yml")
   end
 end
+
+task :app_version do
+  Rake::Task['app_version:current'].invoke
+end
   
 # Deployment management. Requires Heroku access
-namespace :g_deploy do
+namespace :deploy do
   
   desc "Deploy your local devlop branch to staging"
   task :staging do
     puts 'Deploying to staging...'
-    puts `git push staging develop:master`
+    response = system('git push staging develop:master')
+    fail "Error pushing to staging" if !response
     puts `heroku run rake db:migrate --remote staging`
     puts `heroku ps:restart --remote staging`
     puts `heroku open --remote staging`
@@ -126,7 +134,8 @@ namespace :g_deploy do
     desc "Deploy your local master branch to production"
     task :push do
       puts 'Deploying to production...'
-      puts `git push production master:master`
+      response = system('git push production master:master')
+      fail "Error pushing to production" if !response
       puts `heroku run rake db:migrate --remote production`
       puts `heroku ps:restart --remote production`
       puts `heroku open --remote production`
@@ -134,4 +143,8 @@ namespace :g_deploy do
     end
   end
   
+end
+
+task :deploy do
+  Rake::Task['deploy:staging'].invoke
 end
