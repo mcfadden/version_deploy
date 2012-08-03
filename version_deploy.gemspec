@@ -27,7 +27,8 @@ Gem::Specification.new do |s|
     "lib/rake/version_deploy_task.rb",
     "lib/version_deploy.rb",
     "test/helper.rb",
-    "test/test_version_deploy.rb"
+    "test/test_version_deploy.rb",
+    "version_deploy.gemspec"
   ]
   s.homepage = "http://github.com/mcfadden/version_deploy"
   s.licenses = ["MIT"]
