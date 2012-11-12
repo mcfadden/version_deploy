@@ -64,6 +64,7 @@ namespace :app_version do
     fail "Unable to finish release. There was likely merge conflicts. Resolve this, then run 'git flow release finish #{new_version[:major]}.#{new_version[:minor]}.#{new_version[:revision]}'" if !response
     puts "Pushing release to github"
     puts `git push origin master`
+    puts `git push origin develop`
     puts `git push --tags`
     puts "Version #{new_version[:major]}.#{new_version[:minor]}.#{new_version[:revision]} complete"
   end
