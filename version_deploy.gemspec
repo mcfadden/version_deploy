@@ -5,23 +5,23 @@
 
 Gem::Specification.new do |s|
   s.name = "version_deploy"
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ben McFadden"]
-  s.date = "2012-08-03"
+  s.date = "2012-11-12"
   s.description = "Integrating with git-flow for versioning and heroku for deployment, this makes releasing to staging and production a one-line command "
   s.email = "ben.mcfadden@gmail.com"
   s.extra_rdoc_files = [
     "LICENSE.txt",
-    "README.rdoc"
+    "README.md"
   ]
   s.files = [
     ".document",
     "Gemfile",
     "Gemfile.lock",
     "LICENSE.txt",
-    "README.rdoc",
+    "README.md",
     "Rakefile",
     "VERSION",
     "lib/rake/version_deploy_task.rb",
@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/mcfadden/version_deploy"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.24"
+  s.rubygems_version = "1.8.23"
   s.summary = "A simplified versionion and deployment system for rails apps using git-flow and heroku"
 
   if s.respond_to? :specification_version then
