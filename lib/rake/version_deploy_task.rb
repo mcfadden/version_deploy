@@ -86,9 +86,9 @@ namespace :deploy do
     puts 'Deploying to staging...'
     response = system('git push staging develop:master')
     fail "Error pushing to staging" if !response
-    puts `heroku run rake db:migrate --remote staging`
-    puts `heroku ps:restart --remote staging`
-    puts `heroku open --remote staging`
+    Bundler.with_clean_env { puts `heroku run rake db:migrate --remote staging` }
+    Bundler.with_clean_env { puts `heroku ps:restart --remote staging` }
+    Bundler.with_clean_env { puts `heroku open --remote staging` }
     puts 'Deployed to staging'
   end
   
@@ -137,9 +137,9 @@ namespace :deploy do
       puts 'Deploying to production...'
       response = system('git push production master:master')
       fail "Error pushing to production" if !response
-      puts `heroku run rake db:migrate --remote production`
-      puts `heroku ps:restart --remote production`
-      puts `heroku open --remote production`
+      Bundler.with_clean_env { puts `heroku run rake db:migrate --remote production` }
+      Bundler.with_clean_env { puts `heroku ps:restart --remote production` }
+      Bundler.with_clean_env { puts `heroku open --remote production` }
       puts 'Deployed to production'
     end
   end
