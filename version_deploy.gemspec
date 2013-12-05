@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "version_deploy"
-  s.version = "0.0.2"
+  s.version = "0.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ben McFadden"]
-  s.date = "2012-11-12"
+  s.date = "2013-12-05"
   s.description = "Integrating with git-flow for versioning and heroku for deployment, this makes releasing to staging and production a one-line command "
   s.email = "ben.mcfadden@gmail.com"
   s.extra_rdoc_files = [
@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   ]
   s.files = [
     ".document",
+    ".ruby-version",
     "Gemfile",
     "Gemfile.lock",
     "LICENSE.txt",
